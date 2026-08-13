@@ -1,12 +1,10 @@
 print("Olá, seja bem-vindo!")
-nota = []
-nome = []
-alunos = []  
-notas_final = [] 
+alunos = []
+notas_final = []
 
-for i , j in range(1, 6):
+for i in range(5):
     nome = input(f"Digite o nome do aluno {i+1}: ")
-    nota = int(input(f"Digite a nota do aluno {j+1}: "))
+    nota = int(input(f"Digite a nota do aluno {i+1}: "))
 
     alunos.append((nome, nota))
     notas_final.append(nota)
