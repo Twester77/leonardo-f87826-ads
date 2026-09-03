@@ -37,6 +37,7 @@ resultado = tk.Label(janela, text="", fg="blue")
 # Função emprestar
 def emprestar():
     procurado = campo.get()
+    
     escolhido = None
     for item in acervo:
         if item.titulo.lower() == procurado.lower():
