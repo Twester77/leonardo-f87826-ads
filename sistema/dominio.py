@@ -20,11 +20,11 @@ class Livro:
     @ano.setter
     def ano(self, valor):
         if valor < 1450 or valor > date.today().year:
-            raise ValueError(f"Ano inválido: {valor}")
+            raise ValueError("Ano inválido: {valor}")
         self._ano = valor
 
     def idade(self):
-        return date.today().year - self._ano
+        return date.today().year - self._anopython.janelapy
 
     def e_classico(self):
         return self.idade() > 100
