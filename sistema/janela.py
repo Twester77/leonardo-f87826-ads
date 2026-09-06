@@ -87,7 +87,7 @@ tk.Label(formulario, text="Autor: ").grid(row=1, column=0, sticky="e")
 campo_autor = tk.Entry(formulario, width=28)
 campo_autor.grid(row=1, column=1, pady=2)
 
-tk.Label(formulario, text="Ano:").grid(row=2, column=1, sticky="e")
+tk.Label(formulario, text="Ano:").grid(row=2, column=0, sticky="e")
 campo_ano = tk.Entry(formulario, width=28)
 campo_ano.grid(row=2, column=1, pady=2)
 
@@ -114,11 +114,6 @@ def cadastrar():
     except ValueError as erro:
         resultado.config(text=str(erro), fg="red")
             
-    
-
-    livro = Livro(titulo, autor, int(ano))
-    acervo.append(livro)
-    resultado.config(text="Cadastrado: " + str(livro), fg="blue")
     
 tk.Button(janela, text="Cadastrar", command=cadastrar).pack(pady=6, padx=10)
     
