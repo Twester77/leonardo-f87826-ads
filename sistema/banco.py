@@ -27,19 +27,35 @@ print("Tabela criada com sucesso.")
 livros = {
     ("Dom Casmurro", "Machado de Assis", 1899),
     ("Iracema", "José de Alencar", 1865),
-    ("O Cortiço", "Aluisio de Azevedo", 1890),
+    ("Memória Póstumas de Brás Cubas", "Machado de Assis", 1881),
 }
 
-for titulo, autor, ano in livros:
+# for titulo, autor, ano in livros:
 
-  cursor.execute("INSERT INTO livro (titulo, autor, ano) VALUES (?, ?, ?)", (titulo, autor, ano),
+#     cursor.execute("INSERT INTO livro (titulo, autor, ano) VALUES (?, ?, ?)", (titulo, autor, ano), 
 
-  )
+#   )
 
 print(f"{len(livros)} Livros inseridos porém aida não confirmados.")
 
 conexao.commit()
-print("Commit feito - dados salvos no arquivo.")
+
+cursor.execute (
+    "SELECT id, titulo, autor, ano FROM livro WHERE id = ?",
+    (0,1)
+)
+
+print(cursor.fetchone())
+
+cursor.execute("UPDATE livro SET ano = ? WHERE id = ?",
+               (1900, 2))
+
+cursor.execute("DELETE FROM livro WHERE id = ?", (3,))
+
+conexao.commit()
+
+
+print("Commit feito - dados salvos no arquivo.") 
 
 cursor.execute("SELECT id, titulo , autor , ano FROM livro")
 print("\n Livros no banco ")
@@ -48,3 +64,4 @@ for codigo, titulo, autor, ano in cursor.fetchall():
 
 conexao.close()
 print("Conexão fechada.")
+
