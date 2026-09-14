@@ -14,8 +14,8 @@ class RepositorioLivro:
         return livro
     
     def listar(self):
-        self.cursor.execute("SELECT id, titulo, autor, ano FROM livro"
-                            )
+        self.cursor.execute("SELECT id, titulo, autor, ano FROM livro")
+        
         return [self._para_objeto(linha) for linha in self.cursor.fetchall()]
     
     def salvar(self, livro):

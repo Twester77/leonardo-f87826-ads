@@ -16,9 +16,9 @@ print("guardado com o id", novo.id)
 print("-- buscando so ele ---")
 achado = repositorio.buscar_por_id(novo.id)
 
-print("achei:", achado "- tipo:", type(achado).__name__)
+print("achei:", achado, "- tipo:", type(achado).__name__)
 
-print("--- corrigndo o titulo ---")
+print("--- corrigindo o titulo ---")
 achado.titulo = "Memorias Postumas de Bras Cubas"
 repositorio.atualizar(achado)
 print("agora:", repositorio.buscar_por_id(novo.id))
@@ -26,7 +26,6 @@ print("agora:", repositorio.buscar_por_id(novo.id))
 print("--- apagando---")
 repositorio.excluir(novo.id)
 print("procurando de novo:", repositorio.buscar_por_id(novo.id))
-
 
     
 repositorio.fechar()

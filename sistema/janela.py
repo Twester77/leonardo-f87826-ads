@@ -4,12 +4,13 @@ from dominio.livro import Livro
 from dominio.usuario import Usuario
 from dominio.emprestimo import Emprestimo
 
-# Dados iniciais (os mesmos do roteiro)
-acervo = [
-    Livro("Dom Casmurro", "Machado de Assis", 1899),
-    Livro("Iracema", "Jose de Alencar", 1865),
-    Livro("O Cortico", "Aluisio Azevedo", 1890),
-]
+
+from.dados.repositorio_livro import RepositorioLivro
+
+repositorio = RepositorioLivro()
+livros_na_tela = []
+
+
 emprestimos = []
 usuario = Usuario("Aluno", "0000")
 
@@ -23,8 +24,7 @@ tk.Label(janela, text="Acervo", font=("Arial", 14)).pack(pady=6)
 
 # Lista de livros
 lista = tk.Listbox(janela, width=52, height=6)
-for livro in acervo:
-    lista.insert(tk.END, str(livro))
+
 lista.pack(padx=10)
 
 # Campo de digitação
@@ -39,7 +39,7 @@ def emprestar():
     procurado = campo.get()
     
     escolhido = None
-    for item in acervo:
+    for item in repositorio.listar():
         if item.titulo.lower() == procurado.lower():
             escolhido = item
             break
@@ -66,16 +66,15 @@ def devolver():
         resultado.config(text=str(erro), fg="red")
 
 # Botões
-tk.Button(janela, text="Emprestar", command=emprestar).pack()
+tk.Button(janela, text="Emprestar", command=emprestar).pack(pady=4)
 tk.Button(janela, text="Devolver", command=devolver).pack(pady=4)
 
 # Exibe o rótulo de resultado (depois dos botões)
 resultado.pack(pady=6)
 
-
-
 titulo_secao = tk.Label(janela, text="Cadastrar livro",font=("Arial", 12))
 titulo_secao.pack(pady=(10,4))
+
 formulario= tk.Frame(janela)
 formulario.pack()
 
@@ -94,29 +93,83 @@ campo_ano.grid(row=2, column=1, pady=2)
 
 def atualizar_lista():
     lista.delete(0, tk.END)
-    for livro in acervo:
+    
+    
+def livros_na_tela.clear()
+    
+for livro in repositorio.listar():
+        livros_na_tela.append(livro)
         lista.insert(tk.END, str(livro))
+        
         
 def cadastrar():
     titulo = campo_titulo.get()
     autor = campo_autor.get()
     ano = campo_ano.get()
-    
-    try:
-        livro = Livro(titulo, autor, int(ano))
-        acervo.append(livro)
-        atualizar_lista()
-        campo_titulo.delete(0, tk.END)
-        campo_autor.delete(0, tk.END)
-        campo_ano.delete(0, tk.END)
-        resultado.config(text="Cadastrado: " + str(livro), fg="green")
-        
-    except ValueError as erro:
-        resultado.config(text=str(erro), fg="red")
+    campo_titulo.delete(0, tk.END)
+    campo_autor.delete(0, tk.END)
+    campo_ano.delete(0, tk.END)
+    resultado.config(text="Cadastrado: " + str(livro), fg="green")
             
+   except ValueError as erro:
+      resultado.config(text=str(erro), fg="red")
     
-tk.Button(janela, text="Cadastrar", command=cadastrar).pack(pady=6, padx=10)
     
+def excluir():
+   livro =livro_selecionado()
+   if livro is None :
+    return
+   repositorio.excluir(livro.id)()
+   atualizar_lista()
+   resultado.config(text="Excluido: " + livro_titulo, fg="blue")
+    
+try:
+    livro = Livro(titulo, autor, int(ano))
+    repositorio.salvar(livro)
+        
+    atualizar_lista()
+        
+def livro_selecionado():
+            
+    selecionados = lista.curselection()
+    if not selecionados:
+        resultado.config(text ="Selecione um livro na lista.", fg="red")
+        return None
+    posicao = selecionados[0]
+    return livros_na_tela[posicao]
 
-# Mantém a janela aberta
+
+        
+ def alterar():
+     livro =livro_selecionado()
+     if livro is None:
+         return
+    
+     try:
+        livro.titulo = campo_titulo.get()
+        livro.autor = campo_autor.get()
+        livro.ano = int(campo_ano.get())  
+        
+        repositorio.atualizar(livro)
+        atualizar_lista()
+        resultado.config(text="Alterado: " + str(Livro), fg="blue")
+     except ValueError as erro:
+        resultado.config(text=str(erro), fg="red")            
+
+tk.Button(janela, text="Cadastrar", command=cadastrar).pack(pady=6, padx=10)
+tk.Button(botoes, text="Excluir", command=excluir).pack(side="left", padx=4)
+tk.Button(botoes, text="Alterar", command=alterar).pack(side="left", padx=4)
+
+botoes = tk.Frame(janela)
+botoes.pack()
+    
+repositorio.salvar(livro)
+
+# a primeira carga da tela: ela nasce vazia eo banco a preenche
+atualizar_lista()
+
+# Mantém a janela aberta, a conexão fecha junto
 janela.mainloop()
+
+# qunado a janela fecha, a conexão fecha junto
+repositorio.fechar()    
