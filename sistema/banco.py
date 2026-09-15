@@ -42,13 +42,13 @@ conexao.commit()
 
 cursor.execute (
     "SELECT id, titulo, autor, ano FROM livro WHERE id = ?",
-    (0,1)
+    (2,)
 )
 
 print(cursor.fetchone())
 
 cursor.execute("UPDATE livro SET ano = ? WHERE id = ?",
-               (1900, 2))
+               )
 
 cursor.execute("DELETE FROM livro WHERE id = ?", (3,))
 
@@ -57,7 +57,8 @@ conexao.commit()
 
 print("Commit feito - dados salvos no arquivo.") 
 
-cursor.execute("SELECT id, titulo , autor , ano FROM livro")
+cursor.execute("SELECT id, titulo , autor , ano FROM livro ")
+
 print("\n Livros no banco ")
 for codigo, titulo, autor, ano in cursor.fetchall():
     print(f"{codigo} - {titulo} - {autor} ({ano})")

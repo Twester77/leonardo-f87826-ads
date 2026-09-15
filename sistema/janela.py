@@ -116,7 +116,7 @@ def cadastrar():
     
     
 def excluir():
-   livro =livro_selecionado()
+   livro = livro_selecionado()
    if livro is None :
     return
    repositorio.excluir(livro.id)()
