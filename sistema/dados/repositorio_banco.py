@@ -1,5 +1,4 @@
 import sqlite3
-
 from dominio.livro import Livro
 class RepositorioLivro:
     def __init__(self, arquivo="biblioteca_db"):
