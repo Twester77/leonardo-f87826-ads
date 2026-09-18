@@ -3,3 +3,6 @@ class Autor:
         self.nome = nome
         self.nacionalidade = nacionalidade
         self.ano_nascimento = ano_nascimento
+
+    def apresentacao(self):
+        return f"{self.nome} ({self.nacionalidade}, {self.ano_nascimento})"

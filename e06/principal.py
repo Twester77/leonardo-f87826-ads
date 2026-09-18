@@ -4,17 +4,26 @@ from livro import Livro
 from aluno import Aluno
 from emprestimo import Emprestimo
 
-# Criação dos objetos de dentro para fora
 machado = Autor("Machado de Assis", "brasileiro", 1839)
 companhia = Editora("Companhia das Letras", "Sao Paulo")
-casmuro = Livro("Dom Casmurro", 1899, machado, companhia)
+casmurro = Livro("Dom Casmurro", 1899, machado, companhia)
 ana = Aluno("2026001", "Ana Souza", "17 99999-00000")
-emp = Emprestimo(ana, casmuro, "11/09/2026")
+emp = Emprestimo(ana, casmurro, "11/09/2026")
 
-# Os seis prints pedidos
-print("Nome do aluno:", ana.nome)
-print("Telefone do aluno:", ana.telefone)
-print("Data do empréstimo:", emp.data)
-print("Título do livro:", emp.livro.titulo)
-print("Nome do autor do livro:", emp.livro.autor.nome)
-print("Cidade da editora do livro:", emp.livro.editora.cidade)
+# --- prints da parte 1 ---
+print(ana.nome)
+print(ana.telefone)
+print(emp.data)
+print(emp.livro.titulo)
+print(emp.livro.autor.nome)
+print(emp.livro.editora.cidade)
+
+# --- prints da parte 2 ---
+print(casmurro.ficha())
+print(machado.apresentacao())
+print(companhia.etiqueta())
+print(emp.resumo())
+
+# devolve e mostra de novo, o status tem que mudar
+emp.devolver()
+print(emp.resumo())
