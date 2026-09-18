@@ -1,0 +1,38 @@
+1.1:
+
+O self é como a "caixinha" onde cada exemplar guarda as suas próprias informações.
+Quando escrevo self.nome = nome, estou dizendo "guarda isso dentro deste exemplar específico". 
+Se eu não usar o self, o valor ficaria só dentro da função __init__ e morreria no fim dela — ninguém mais conseguiria acessar depois. É parecido com um CSRF token que só vale enquanto a função está rodando: passou o __init__, se não foi guardado no self, ela simplesmente some.
+
+1.2 :
+Atributos (ficam no objeto): titulo, diretor, duracao_min.
+Variáveis locais (morrem no fim da função): horas e etiqueta.
+Por que quando  o __init__ roda são eles que ficam guardados no objeto .diretor
+diferente das variaveis "horas" e "etiqueta" que não são guardadas no atributos filme.horas que se torna obsoleto e já "morreu". Se rodar tentando dar print no filme.horas ele falha devido não ter nenhum valor guardado no objeto ele já está "obsoleto", agora se rodar o print no filme.diretor ele funciona porque os valores permanecem guardados no filme.diretor.
+
+2.1:
+O método idade() não recebe a editora por parâmetro porque ele já tem acesso a ela através do self. É a mesma ideia dos métodos do Livro no projeto: o dado e o comportamento ficam juntos. No encontro 4 as funções recebiam acervo como primeiro parâmetro porque eram funções soltas; agora a função mora dentro da classe e chama o próprio objeto pelo self.
+
+2.2:
+Eu não chamei o __str__ em nenhum lugar. Quem chamou foi o print, no momento em que ele precisou transformar a editora em texto. É o mesmo que aconteceu com a classe Livro no encontro 6.
+
+3.1:
+(a) O setter roda duas vezes: uma no __init__ (self.preco = preco) e outra na linha p.preco = 20.00.
+(b) A linha p.preco = -5 dispara raise ValueError("Preco invalido: -5") e o programa para ali mesmo.
+(c) O print(p.preco) não é executado, porque o programa morreu antes de chegar nele.
+
+3.2:
+O setter guarda em self._fundacao (com underline) porque self.fundacao iria chamar o próprio setter de novo — e isso geraria um loop infinito. O underline é um combinado: "esse nome é interno, não mexe direto".
+
+3.3:
+As duas versões recusam o ano errado na criação. A diferença aparece depois: se alguém fizer companhia.fundacao = 3000 em algum lugar do sistema, a versão com if só no __init__ deixa passar (porque a validação só está no construtor), e a versão com setter recusa (porque o setter roda em toda atribuição, inclusive depois do objeto criado). A versão com setter é a mais segura.
+
+4.3:
+(a) Digitando 3000: o usuário não vê nada. O int() está fora do try, então o ValueError do Livro sobe e mata o programa sem ser tratado.
+(b) Digitando abc: também dá ValueError (invalid literal for int), e o programa também morre, porque o int() está fora do try.
+(c) Correção: mover o int(ano) para dentro do try, junto com a criação do Livro.
+
+6.1:
+Validei de formas diferentes: título vazio com if no __init__ (não faz sentido título vazio nunca); edição e ano com @property e setter (porque podem ser alterados depois que a revista já existe).
+Testando r.edicao = 0: recusado pelo setter.
+Testando r.titulo = "": NÃO é recusado, porque o if do título está só no __init__, não no atributo. Depois dessa linha, a revista fica com título vazio — o setter só existe para edicao e ano.
